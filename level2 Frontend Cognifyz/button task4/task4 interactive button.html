@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome Color Changer Button</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f3;
+            font-family: 'Arial', sans-serif;
+            transition: background-color 0.6s ease;
+        }
+
+        .button-container {
+            text-align: center;
+        }
+
+        #colorChangeButton {
+            position: relative;
+            padding: 16px 32px;
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+            background-color: #4a90e2;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #colorChangeButton:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg, 
+                transparent, 
+                rgba(255,255,255,0.3), 
+                transparent
+            );
+            transition: all 0.6s ease;
+        }
+
+        #colorChangeButton:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        #colorChangeButton:hover:before {
+            left: 100%;
+        }
+
+        #colorChangeButton:active {
+            transform: scale(0.95);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #clickCount {
+            margin-top: 15px;
+            font-size: 16px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <button id="colorChangeButton">Change Background</button>
+        <div id="clickCount">Clicks: 0</div>
+    </div>
+
+    <script>
+        // Advanced color palette with more sophisticated colors
+        const colors = [
+            { bg: '#3498db', name: 'Vibrant Blue' },
+            { bg: '#2ecc71', name: 'Emerald Green' },
+            { bg: '#e74c3c', name: 'Passionate Red' },
+            { bg: '#f39c12', name: 'Sunflower Orange' },
+            { bg: '#9b59b6', name: 'Royal Purple' },
+            { bg: '#1abc9c', name: 'Turquoise' },
+            { bg: '#34495e', name: 'Deep Sea Blue' },
+            { bg: '#16a085', name: 'Green Sea' },
+            { bg: '#8e44ad', name: 'Wisteria' },
+            { bg: '#2c3e50', name: 'Midnight Blue' }
+        ];
+
+        const button = document.getElementById('colorChangeButton');
+        const body = document.body;
+        const clickCountDisplay = document.getElementById('clickCount');
+        let lastColorIndex = -1;
+        let clickCount = 0;
+
+        function getRandomColor() {
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * colors.length);
+            } while (newIndex === lastColorIndex);
+            
+            lastColorIndex = newIndex;
+            return colors[newIndex];
+        }
+
+        button.addEventListener('click', function() {
+            const colorObj = getRandomColor();
+            body.style.backgroundColor = colorObj.bg;
+            
+            // Update click count
+            clickCount++;
+            clickCountDisplay.textContent = `Clicks: ${clickCount} | Last Color: ${colorObj.name}`;
+
+            // Button animation
+            button.style.backgroundColor = colorObj.bg;
+            button.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+            }, 200);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Explorer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Global Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, rgba(100, 99, 99, 0.8), rgba(167, 177, 182, 0.8)), 
+                        url('https://t4.ftcdn.net/jpg/05/77/18/21/360_F_577182177_Sn0Y9KngziZA2tozlvh6ajZAxASLkyl2.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 1000px;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background: linear-gradient(145deg, #4a90e2, #357abd);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+            background: linear-gradient(145deg, #357abd, #4a90e2);
+        }
+
+        .content-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .content-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .content-card img {
+            max-width: 100px;
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .content-card h3 {
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .content-card p {
+            color: #e0e0e0;
+            margin-bottom: 10px;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 0 10px;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Global Content Explorer</h1>
+        
+        <div class="button-group">
+            <button id="load-quotes" class="btn">Load Quotes</button>
+            <button id="load-users" class="btn">Load Users</button>
+            <button id="load-news" class="btn">Load News</button>
+            <button id="load-dog-facts" class="btn">Load Dog Facts</button>
+        </div>
+
+        <div id="quotes-container" class="content-container"></div>
+        <div id="users-container" class="content-container"></div>
+        <div id="news-container" class="content-container"></div>
+        <div id="dog-facts-container" class="content-container"></div>
+    </div>
+
+    <script>
+        // Modify the previous script to add content-card class
+        function updateContainerStyles() {
+            document.querySelectorAll('#quotes-container > div').forEach(el => el.classList.add('content-card'));
+            document.querySelectorAll('#users-container > div').forEach(el => el.classList.add('content-card'));
+            document.querySelectorAll('#news-container > div').forEach(el => el.classList.add('content-card'));
+            document.querySelectorAll('#dog-facts-container > div').forEach(el => el.classList.add('content-card'));
+        }
+
+        // Existing script methods will remain the same
+        // Add this to your existing script or modify the existing initializeAPI function
+        function initializeAPI() {
+            document.getElementById('load-quotes').addEventListener('click', () => {
+                fetchQuotes();
+                setTimeout(updateContainerStyles, 100);
+            });
+            document.getElementById('load-users').addEventListener('click', () => {
+                fetchUsers();
+                setTimeout(updateContainerStyles, 100);
+            });
+            document.getElementById('load-news').addEventListener('click', () => {
+                fetchNews();
+                setTimeout(updateContainerStyles, 100);
+            });
+            document.getElementById('load-dog-facts').addEventListener('click', () => {
+                fetchDogFacts();
+                setTimeout(updateContainerStyles, 100);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeAPI);
+    </script>
+    <script src="API integration.js"></script>
+</body>
+</html>
